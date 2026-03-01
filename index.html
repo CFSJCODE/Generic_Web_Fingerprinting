@@ -3,39 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Solução estratégica para fingerprinting web e auditoria de infraestrutura de TI">
+    <meta name="theme-color" content="#0f172a">
     <title>Fingerprinting Web Genérico | CFSJ TECH</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
         
+        :root {
+            --color-bg-dark: #0f172a;
+            --color-text-light: #f8fafc;
+            --color-slate-400: #94a3b8;
+            --color-cyan-400: #22d3ee;
+            --color-glass-bg: rgba(30, 41, 59, 0.7);
+            --color-glass-border: rgba(255, 255, 255, 0.1);
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-light);
         }
-        .mono { font-family: 'Fira Code', monospace; }
+        
+        .mono { 
+            font-family: 'Fira Code', monospace; 
+        }
+        
         .glass {
-            background: rgba(30, 41, 59, 0.7);
+            background: var(--color-glass-bg);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--color-glass-border);
         }
+        
         .github-card {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
             border: 1px solid rgba(129, 140, 248, 0.2);
         }
+        
         .image-frame {
             border: 1px solid rgba(129, 140, 248, 0.3);
             box-shadow: 0 0 40px rgba(79, 70, 229, 0.15);
         }
-
-        /* Estilos para o estado ativo do menu */
+        
         .nav-link {
             position: relative;
             display: inline-block;
             transition: color 0.3s ease;
-            color: #94a3b8; /* slate-400 */
+            color: var(--color-slate-400);
         }
+        
         .nav-link::after {
             content: '';
             position: absolute;
@@ -43,21 +60,20 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background-color: #22d3ee; /* cyan-400 */
+            background-color: var(--color-cyan-400);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateX(-50%);
         }
-        .nav-link.active {
-            color: #ffffff;
-        }
-        .nav-link.active::after {
-            width: 100%;
-        }
+        
+        .nav-link.active,
         .nav-link:hover {
             color: #ffffff;
         }
-
-        /* Estilo CFSJTECH conforme o Print */
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
         .brand-logo {
             font-family: 'Inter', sans-serif;
             font-weight: 900;
@@ -69,10 +85,10 @@
 <body class="selection:bg-cyan-500/30">
 
     <!-- Navegação Principal -->
-    <nav class="fixed w-full z-50 glass border-b border-slate-800">
+    <nav class="fixed w-full z-50 glass border-b border-slate-800" role="navigation" aria-label="Navegação principal">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Branding CFSJTECH (Estilo do Print) -->
-            <a href="https://cfsjcode.github.io/CFSJ_TECH/" target="_blank" class="brand-logo text-xl md:text-2xl transition-transform hover:scale-105 active:scale-95">
+            <!-- Branding CFSJTECH -->
+            <a href="https://cfsjcode.github.io/CFSJ_TECH/" target="_blank" rel="noopener noreferrer" class="brand-logo text-xl md:text-2xl transition-transform hover:scale-105 active:scale-95" aria-label="CFSJ TECH - Página inicial">
                 <span class="text-white">CFSJ</span><span class="text-cyan-400">TECH</span>
             </a>
             
@@ -83,14 +99,13 @@
                 <a href="#repositorio" class="nav-link">Repositório</a>
             </div>
 
-            <!-- Espaçador invisível para manter o menu centralizado no desktop -->
             <div class="hidden md:block w-[120px]"></div>
         </div>
     </nav>
 
     <!-- Seção Hero -->
     <header id="inicio" class="relative pt-56 pb-32 px-6 overflow-hidden section-spy text-center">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-cyan-600/5 blur-[120px] rounded-full -z-10"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-cyan-600/5 blur-[120px] rounded-full -z-10" aria-hidden="true"></div>
         <div class="max-w-5xl mx-auto">
             <div class="inline-flex items-center px-4 py-1.5 mb-6 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-semibold tracking-widest uppercase">
                 V1.0.0 • Auditoria de Infraestrutura de TI
@@ -102,8 +117,8 @@
                 Solução estratégica para extração semântica de metadados e identificação de ativos em redes críticas através da técnica de <span class="text-white italic">Banner Grabbing</span>.
             </p>
             <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://github.com/CFSJCODE/Generic_Web_Fingerprinting" target="_blank" class="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-cyan-600/40 flex items-center transform hover:-translate-y-1">
-                    <i class="fab fa-github mr-3 text-lg"></i> Acessar no GitHub
+                <a href="https://github.com/CFSJCODE/Generic_Web_Fingerprinting" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-cyan-600/40 flex items-center transform hover:-translate-y-1">
+                    <i class="fab fa-github mr-3 text-lg" aria-hidden="true"></i> Acessar no GitHub
                 </a>
                 <a href="#tecnica" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all border border-slate-700 flex items-center">
                     Ver Fundamentação
@@ -118,7 +133,7 @@
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <div>
                     <h2 class="text-3xl font-bold mb-6 flex items-center italic">
-                        <span class="w-8 h-1 bg-cyan-500 mr-4"></span>
+                        <span class="w-8 h-1 bg-cyan-500 mr-4" aria-hidden="true"></span>
                         Fundamentação Tecnológica
                     </h2>
                     <div class="space-y-6 text-slate-400 leading-relaxed text-center lg:text-left">
@@ -130,11 +145,11 @@
                         </p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 text-center">
                             <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700">
-                                <h4 class="text-cyan-400 font-bold mb-2 text-sm uppercase tracking-widest">Protocolo REST</h4>
+                                <h3 class="text-cyan-400 font-bold mb-2 text-sm uppercase tracking-widest">Protocolo REST</h3>
                                 <p class="text-xs font-light">Interação direta com APIs Eureka Info para coleta de diagnósticos operacionais.</p>
                             </div>
                             <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700">
-                                <h4 class="text-cyan-400 font-bold mb-2 text-sm uppercase tracking-widest">Auditoria IoT</h4>
+                                <h3 class="text-cyan-400 font-bold mb-2 text-sm uppercase tracking-widest">Auditoria IoT</h3>
                                 <p class="text-xs font-light">Mapeamento preciso de ativos do ecossistema Google Nest e dispositivos de streaming.</p>
                             </div>
                         </div>
@@ -143,17 +158,16 @@
                 <div class="glass p-8 rounded-2xl border-slate-700 shadow-2xl relative mx-auto max-w-lg lg:max-w-none">
                     <div class="absolute -top-4 -right-4 bg-cyan-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">Simulação Lógica</div>
                     <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-red-500" aria-hidden="true"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500" aria-hidden="true"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500" aria-hidden="true"></div>
                         <span class="text-xs text-slate-500 ml-4 mono uppercase tracking-tighter">Visualização da Lógica do Script</span>
                     </div>
-                    <div class="mono text-xs md:text-sm space-y-2 overflow-x-auto">
-                        <p class="text-cyan-400 italic"># Handshake HTTP estabelecido...</p>
-                        <p class="text-white mt-4 font-bold uppercase tracking-tighter whitespace-nowrap">name      model_name  mac_address        build_version</p>
-                        <p class="text-white whitespace-nowrap">----      ----------  -----------        -------------</p>
-                        <p class="text-cyan-300 whitespace-nowrap">Nest Mini D4:F5:47:XX  510748</p>
-                    </div>
+                    <pre class="mono text-xs md:text-sm space-y-2 overflow-x-auto"><code class="text-cyan-400 italic"># Handshake HTTP estabelecido...
+
+<span class="text-white font-bold uppercase tracking-tighter">name      model_name  mac_address        build_version</span>
+<span class="text-white">----      ----------  -----------        -------------</span>
+<span class="text-cyan-300">Nest Mini D4:F5:47:XX  510748</span></code></pre>
                 </div>
             </div>
         </div>
@@ -170,7 +184,7 @@
             </div>
             
             <div class="relative group max-w-4xl mx-auto">
-                <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-1000"></div>
+                <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-1000" aria-hidden="true"></div>
                 <div class="relative bg-slate-900 rounded-2xl p-2 md:p-4 image-frame overflow-hidden border border-slate-800">
                     <img 
                         src="https://i.imgur.com/mzKEoYK.png" 
@@ -182,20 +196,20 @@
             </div>
             
             <div class="mt-12 grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-slate-800/20 p-6 rounded-xl border border-slate-800 group hover:border-cyan-500/30 transition-colors text-center shadow-xl">
-                    <h4 class="text-white font-bold mb-2 flex items-center justify-center uppercase tracking-tighter text-sm">
-                        <i class="fas fa-terminal text-cyan-400 mr-3 text-sm"></i>
+                <div class="bg-slate-800/20 p-6 rounded-xl border border-slate-800 hover:border-cyan-500/30 transition-colors text-center shadow-xl">
+                    <h3 class="text-white font-bold mb-2 flex items-center justify-center uppercase tracking-tighter text-sm">
+                        <i class="fas fa-terminal text-cyan-400 mr-3 text-sm" aria-hidden="true"></i>
                         Vetor de Comando
-                    </h4>
+                    </h3>
                     <p class="text-slate-400 text-sm italic leading-relaxed font-light text-center">
                         Execução com <span class="text-white font-mono text-xs">Set-ExecutionPolicy Bypass</span>, assegurando acesso imediato aos metadados do host alvo via porta 8008.
                     </p>
                 </div>
-                <div class="bg-slate-800/20 p-6 rounded-xl border border-slate-800 group hover:border-emerald-500/30 transition-colors text-center shadow-xl">
-                    <h4 class="text-white font-bold mb-2 flex items-center justify-center uppercase tracking-tighter text-sm">
-                        <i class="fas fa-check-circle text-emerald-400 mr-3 text-sm"></i>
+                <div class="bg-slate-800/20 p-6 rounded-xl border border-slate-800 hover:border-emerald-500/30 transition-colors text-center shadow-xl">
+                    <h3 class="text-white font-bold mb-2 flex items-center justify-center uppercase tracking-tighter text-sm">
+                        <i class="fas fa-check-circle text-emerald-400 mr-3 text-sm" aria-hidden="true"></i>
                         Integridade de Dados
-                    </h4>
+                    </h3>
                     <p class="text-slate-400 text-sm italic leading-relaxed font-light text-center">
                         Extração nominal da versão da build e identificador MAC, permitindo a correlação de vulnerabilidades com base na versão de firmware detectada.
                     </p>
@@ -209,50 +223,50 @@
         <div class="max-w-4xl mx-auto">
             <h2 class="text-center text-3xl font-bold mb-16 italic underline underline-offset-8 decoration-cyan-500/50 text-white uppercase tracking-tighter">Protocolo Operacional</h2>
             <div class="grid md:grid-cols-3 gap-8 text-center">
-                <div class="p-8 rounded-2xl bg-slate-800/30 border border-slate-700 shadow-lg">
-                    <div class="w-12 h-12 bg-cyan-600/10 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-cyan-400">01</div>
+                <article class="p-8 rounded-2xl bg-slate-800/30 border border-slate-700 shadow-lg">
+                    <div class="w-12 h-12 bg-cyan-600/10 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-cyan-400" aria-hidden="true">01</div>
                     <h3 class="font-bold mb-3 italic text-white uppercase tracking-tighter text-sm">Setup</h3>
                     <p class="text-xs text-slate-400 leading-relaxed">PowerShell 5.1+ com política de execução em Bypass para a sessão atual.</p>
-                </div>
-                <div class="p-8 rounded-2xl bg-slate-800/30 border border-slate-700 shadow-lg">
-                    <div class="w-12 h-12 bg-cyan-600/10 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-cyan-400">02</div>
+                </article>
+                <article class="p-8 rounded-2xl bg-slate-800/30 border border-slate-700 shadow-lg">
+                    <div class="w-12 h-12 bg-cyan-600/10 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-cyan-400" aria-hidden="true">02</div>
                     <h3 class="font-bold mb-3 italic text-white uppercase tracking-tighter text-sm">Input</h3>
                     <p class="text-xs text-slate-400 leading-relaxed">Fornecimento de parâmetros via CLI: IP do host alvo e porta de serviço.</p>
-                </div>
-                <div class="p-8 rounded-2xl bg-slate-800/30 border border-slate-700 shadow-lg">
-                    <div class="w-12 h-12 bg-cyan-600/10 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-cyan-400">03</div>
+                </article>
+                <article class="p-8 rounded-2xl bg-slate-800/30 border border-slate-700 shadow-lg">
+                    <div class="w-12 h-12 bg-cyan-600/10 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-cyan-400" aria-hidden="true">03</div>
                     <h3 class="font-bold mb-3 italic text-white uppercase tracking-tighter text-sm">Output</h3>
                     <p class="text-xs text-slate-400 leading-relaxed">Análise estruturada dos objetos retornados para auditoria de inventário.</p>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 
     <!-- Seção de Distribuição GitHub -->
     <section id="repositorio" class="py-32 px-6 bg-slate-950 relative overflow-hidden section-spy min-h-[70vh] flex items-center">
-        <div class="absolute inset-0 bg-cyan-600/5 opacity-30 -z-10"></div>
+        <div class="absolute inset-0 bg-cyan-600/5 opacity-30 -z-10" aria-hidden="true"></div>
         <div class="max-w-4xl mx-auto w-full">
             <div class="github-card rounded-3xl p-8 md:p-12 text-center border shadow-2xl">
                 <div class="mb-8 inline-block p-4 bg-slate-800 rounded-2xl shadow-inner border border-slate-700">
-                    <i class="fab fa-github text-6xl text-white"></i>
+                    <i class="fab fa-github text-6xl text-white" aria-hidden="true"></i>
                 </div>
                 <h2 class="text-3xl font-bold mb-4 uppercase tracking-tighter">Repositório Oficial no GitHub</h2>
                 <p class="text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-                    O código-fonte completo e a documentação técnica são gerenciados no GitHub da <a href="https://cfsjcode.github.io/CFSJ_TECH/" target="_blank" class="brand-logo text-lg"><span class="text-white">CFSJ</span><span class="text-cyan-400">TECH</span></a>.
+                    O código-fonte completo e a documentação técnica são gerenciados no GitHub da <a href="https://cfsjcode.github.io/CFSJ_TECH/" target="_blank" rel="noopener noreferrer" class="brand-logo text-lg hover:opacity-80 transition-opacity"><span class="text-white">CFSJ</span><span class="text-cyan-400">TECH</span></a>.
                 </p>
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="https://github.com/CFSJCODE/Generic_Web_Fingerprinting" target="_blank" class="px-10 py-5 bg-white text-slate-900 rounded-xl font-bold transition-all hover:bg-slate-200 flex items-center justify-center shadow-xl uppercase text-xs tracking-widest">
-                        <i class="fas fa-external-link-alt mr-3"></i> Ver Repositório
+                    <a href="https://github.com/CFSJCODE/Generic_Web_Fingerprinting" target="_blank" rel="noopener noreferrer" class="px-10 py-5 bg-white text-slate-900 rounded-xl font-bold transition-all hover:bg-slate-200 flex items-center justify-center shadow-xl uppercase text-xs tracking-widest">
+                        <i class="fas fa-external-link-alt mr-3" aria-hidden="true"></i> Ver Repositório
                     </a>
                     <a href="https://github.com/CFSJCODE/Generic_Web_Fingerprinting/archive/refs/heads/main.zip" class="px-10 py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold transition-all flex items-center justify-center shadow-lg shadow-cyan-600/20 uppercase text-xs tracking-widest">
-                        <i class="fas fa-download mr-3"></i> Baixar .ZIP
+                        <i class="fas fa-download mr-3" aria-hidden="true"></i> Baixar .ZIP
                     </a>
                 </div>
             </div>
 
             <div class="mt-12 p-6 rounded-xl border border-rose-500/20 bg-rose-500/5 text-sm text-slate-400 italic text-center">
-                <strong class="text-rose-400 uppercase tracking-tighter not-italic mr-2 font-bold italic text-xs">Aviso Legal:</strong> 
+                <strong class="text-rose-400 uppercase tracking-tighter font-bold text-xs not-italic">Aviso Legal:</strong> 
                 Esta ferramenta é destinada exclusivamente a auditorias autorizadas. O autor declina qualquer responsabilidade por uso indevido.
             </div>
         </div>
@@ -261,47 +275,47 @@
     <!-- Rodapé -->
     <footer class="py-20 px-6 border-t border-slate-800 glass">
         <div class="max-w-7xl mx-auto flex flex-col items-center text-center">
-            <a href="https://cfsjcode.github.io/CFSJ_TECH/" target="_blank" class="hover:opacity-80 transition-opacity mb-4">
-                <h4 class="brand-logo text-3xl">
+            <a href="https://cfsjcode.github.io/CFSJ_TECH/" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity mb-4">
+                <h2 class="brand-logo text-3xl">
                     <span class="text-white">CFSJ</span><span class="text-cyan-400">TECH</span>
-                </h4>
+                </h2>
             </a>
             <p class="text-slate-400 text-sm leading-relaxed mb-8 max-w-2xl font-light">
-                Liderada por <span class="text-white font-medium">Cláudio Francisco</span>, <span class="text-white font-medium">Engenheiro Da Computação</span> em formação pela <a href="https://www.pucminas.br/campus/coracao-eucaristico/ensino/graduacao/Paginas/Engenharia-da-Computacao.aspx?curso=202" target="_blank" class="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">PUC Minas</a>, especialista em <span class="text-white font-medium">Suporte Técnico Avançado De Informática e IoT</span>.
+                Liderada por <span class="text-white font-medium">Cláudio Francisco</span>, <span class="text-white font-medium">Engenheiro Da Computação</span> em formação pela <a href="https://www.pucminas.br/campus/coracao-eucaristico/ensino/graduacao/Paginas/Engenharia-da-Computacao.aspx?curso=202" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">PUC Minas</a>, especialista em <span class="text-white font-medium">Suporte Técnico Avançado De Informática e IoT</span>.
             </p>
-            <div class="flex justify-center space-x-10 text-slate-500 text-2xl mb-12">
-                <a href="https://github.com/CFSJCODE" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
-                <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fas fa-envelope"></i></a>
-            </div>
+            <nav class="flex justify-center space-x-10 text-slate-500 text-2xl mb-12" aria-label="Redes sociais">
+                <a href="https://github.com/CFSJCODE" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+                <a href="#" class="hover:text-cyan-400 transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+                <a href="#" class="hover:text-cyan-400 transition-colors" aria-label="Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+            </nav>
             <div class="pt-8 border-t border-slate-800/50 w-full text-slate-400 text-[9px] font-mono uppercase tracking-[0.4em]">
-                &copy; 2025 <a href="https://cfsjcode.github.io/CFSJ_TECH/" target="_blank" class="brand-logo text-xs"><span class="text-white">CFSJ</span><span class="text-cyan-400">TECH</span></a>
+                &copy; 2025 <a href="https://cfsjcode.github.io/CFSJ_TECH/" target="_blank" rel="noopener noreferrer" class="brand-logo text-xs hover:opacity-80 transition-opacity"><span class="text-white">CFSJ</span><span class="text-cyan-400">TECH</span></a>
             </div>
         </div>
     </footer>
 
     <!-- Script para Navegação Inteligente (Scroll Spy) -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        (function initScrollSpy() {
             const sections = document.querySelectorAll('.section-spy');
             const navLinks = document.querySelectorAll('.nav-link');
 
+            if (!sections.length || !navLinks.length) return;
+
             const observerOptions = {
                 root: null,
-                rootMargin: '-30% 0px -30% 0px', 
-                threshold: 0.1 
+                rootMargin: '-30% 0px -30% 0px',
+                threshold: 0.1
             };
 
             const observerCallback = (entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute('id');
-                        
+                        const id = entry.target.id;
+                        if (!id) return;
+
                         navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href') === `#${id}`) {
-                                link.classList.add('active');
-                            }
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
                         });
                     }
                 });
@@ -309,7 +323,7 @@
 
             const observer = new IntersectionObserver(observerCallback, observerOptions);
             sections.forEach(section => observer.observe(section));
-        });
+        })();
     </script>
 
 </body>
