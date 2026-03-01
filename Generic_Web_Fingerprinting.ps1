@@ -1,37 +1,49 @@
-# ==============================================================================
-# Script: Generic_Web_Fingerprinting.ps1
-# Função: Extração Genérica de Cabeçalhos HTTP (Banner Grabbing)
-# ==============================================================================
+<#
+.SYNOPSIS
+    Coleta informações de diagnóstico e identificação de um dispositivo em rede via API REST.
 
-# 1. Parâmetros de Conexão (Substitua IP e Porta conforme o alvo)
-$IpAddress = "000.000.0.0"
-$Port      = "8008"
-$Protocol  = "https"          # Altere para "https" se a porta exigir (ex: 443, 8443)
+.DESCRIPTION
+    Este script realiza uma requisição HTTP GET para o endpoint /setup/eureka_info.
+    Foi projetado para ser modular e flexível, permitindo a inserção dinâmica do endereço IP e da porta.
+    Ideal para auditorias rápidas de infraestrutura de TI e levantamento de ativos (como hardwares IoT ou dispositivos de streaming).
 
-# 2. Montagem da URI apontando para a raiz do serviço
-$EndpointUri = "${Protocol}://${IpAddress}:${Port}/"
+.PARAMETER IPAddress
+    Endereço IPv4 do dispositivo alvo na rede local ou roteada.
 
-Write-Host "[*] Iniciando Banner Grabbing genérico em ${EndpointUri}..." -ForegroundColor Cyan
+.PARAMETER Port
+    Porta de comunicação do serviço REST do dispositivo. O valor padrão é definido como 8008.
+
+.EXAMPLE
+    .\Generic_Web_Fingerprinting.ps1 -IPAddress "192.168.0.114"
+
+.EXAMPLE
+    .\Generic_Web_Fingerprinting.ps1 -IPAddress "10.0.0.50" -Port 8080
+#>
+
+[CmdletBinding()]
+param (
+    [Parameter(Mandatory=$true, HelpMessage="Forneça o endereço IPv4 válido do dispositivo.")]
+    [ValidatePattern('^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$')]
+    [string]$IPAddress,
+
+    [Parameter(Mandatory=$false, HelpMessage="Forneça a porta de comunicação do serviço.")]
+    [ValidateRange(1, 65535)]
+    [int]$Port = 8008
+)
+
+# Construção semântica da URI baseada nos parâmetros de entrada
+$Uri = "http://${IPAddress}:${Port}/setup/eureka_info"
 
 try {
-    # 3. Execução da requisição genérica (DisableKeepAlive para evitar conexões presas)
-    $response = Invoke-WebRequest -Uri $EndpointUri -Method Get -TimeoutSec 5 -UseBasicParsing -DisableKeepAlive
-
-    Write-Host "[+] Resposta HTTP $($response.StatusCode) recebida.`n" -ForegroundColor Green
-    Write-Host "=== Cabeçalhos do Servidor (Fingerprint) ===" -ForegroundColor Yellow
-
-    # 4. Exibição dos cabeçalhos estruturados
-    $response.Headers | Format-Table -AutoSize
+    Write-Verbose "Iniciando requisição HTTP GET para o endpoint: $Uri"
+    
+    # Executa a chamada REST. A flag -ErrorAction Stop garante que falhas de rede sejam capturadas pelo bloco catch.
+    $response = Invoke-RestMethod -Uri $Uri -Method Get -ErrorAction Stop
+    
+    # Filtra e projeta os atributos de interesse do payload JSON retornado
+    $response | Select-Object name, model_name, mac_address, build_version
 }
 catch {
-    # Tratamento avançado: Extrair cabeçalhos mesmo se houver erro HTTP (ex: 401/403)
-    if ($_.Exception.Response) {
-        $statusCode = $_.Exception.Response.StatusCode.value__
-        Write-Host "[!] Servidor respondeu com código de erro HTTP ${statusCode}.`n" -ForegroundColor DarkYellow
-        Write-Host "=== Cabeçalhos do Servidor (Extraídos do Erro) ===" -ForegroundColor Yellow
-        $_.Exception.Response.Headers | Format-Table -AutoSize
-    } else {
-        Write-Error "Falha na comunicação (Timeout, Porta Fechada ou Protocolo Incompatível). Detalhe: $($_.Exception.Message)"
-    }
-
+    # Tratamento formal de anomalias de conexão ou resolução de requisição
+    Write-Error "Falha na comunicação com o ativo em $Uri. Detalhes técnicos da exceção: $($_.Exception.Message)"
 }
