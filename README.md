@@ -10,31 +10,47 @@ Este script utiliza o cmdlet `Invoke-WebRequest` do PowerShell para enviar requi
 
 ## ⚙️ Pré-requisitos do Sistema
 
-* **Sistema Operacional:** Windows 10/11 ou Windows Server.
-* **Interpretador:** PowerShell 5.1 ou superior (também compatível com PowerShell Core).
-* **Permissões:** Privilégios adequados para execução de scripts. Caso a política de execução bloqueie o script, execute o seguinte comando em uma janela do PowerShell como Administrador para liberar a execução na sessão atual:
-    ```powershell
-    Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
-    ```
+- **Sistema Operacional:** Windows 10/11 ou Windows Server.
+- **Interpretador:** PowerShell 5.1 ou superior (também compatível com PowerShell Core).
+- **Permissões:** Privilégios adequados para execução de scripts. Caso a política de execução bloqueie o script, execute o seguinte comando em uma janela do PowerShell como Administrador para liberar a execução na sessão atual:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+```
 
 ## 🚀 Como Utilizar (Guia de Operação)
 
-O script foi projetado para ser simples e não requer passagem de argumentos complexos via linha de comando. A definição do alvo é feita diretamente no código-fonte.
+O script foi projetado para aceitar parâmetros via linha de comando, permitindo maior flexibilidade na auditoria de múltiplos alvos.
 
-1.  Faça o download ou clone este repositório.
-2.  Abra o arquivo `Generic_Web_Fingerprinting.ps1` utilizando o **Bloco de Notas** (Notepad), Visual Studio Code, ou o editor de texto de sua preferência.
-3.  Localize o bloco "Parâmetros de Conexão" no início do script.
-4.  **Edite** as variáveis `$IpAddress` e `$Port` com o endereço IP e a porta do alvo que deseja analisar:
-    ```powershell
-    # 1. Parâmetros de Conexão (Substitua IP e Porta conforme o alvo)
-    $IpAddress = "SEU_IP_AQUI"
-    $Port      = "SUA_PORTA_AQUI"
-    $Protocol  = "http" # ou "https"
-    ```
-5.  Salve o arquivo e execute-o via terminal do PowerShell:
-    ```powershell
-    .\Generic_Web_Fingerprinting.ps1
-    ```
+1. Faça o download ou clone este repositório.
+2. Abra o **PowerShell** como Administrador.
+3. Navegue até o diretório onde o script está localizado:
+
+```powershell
+cd C:\caminho\para\o\script
+```
+
+4. Configure a política de execução para a sessão atual (execute apenas uma vez):
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+```
+
+5. Quando solicitado, confirme digitando `A` (Sim para Todos) ou `S` (Sim).
+
+6. Execute o script passando os parâmetros `-IPAddress` e `-Port` via linha de comando:
+
+```powershell
+.\Generic_Web_Fingerprinting.ps1 -IPAddress "ENDEREÇO IP DO HOST NO FORMATO 192.168.0.1" -Port "EXEMPLO: 8008"
+```
+
+**Exemplo de saída esperada:**
+
+```powershell
+name      model_name mac_address       build_version
+----      ---------- -----------       -------------
+Nest Mini            D4:F5:47:05:E5:16 510748
+```
 
 ## 🔬 Estudo de Caso Prático: Descoberta de Dispositivos IoT (Google Nest Mini)
 
@@ -44,9 +60,10 @@ O script mostra grande utilidade em processos de auditoria de redes locais e ide
 Durante uma varredura de rotina em uma rede local (WLAN) utilizando ferramentas de mapeamento e análise de pacotes (como WiFiman e Fing), foi identificado um host com o IP `192.168.0.114` sem hostname evidente.
 
 **Procedimento Tático:**
-1.  **Port Scanning:** Uma varredura de portas no host revelou que a porta `8008` (frequentemente associada a serviços web alternativos ou APIs de configuração) estava com o status *listening*.
-2.  **Execução do Script:** O endereço IP `192.168.0.114` e a porta `8008` foram inseridos no script `Generic_Web_Fingerprinting.ps1` via Bloco de Notas.
-3.  **Análise de Metadados:** Ao executar o script, a extração dos cabeçalhos HTTP (*Banner Grabbing*) revelou assinaturas estruturais nos *headers* que permitiram identificar inequivocamente o dispositivo como um **Google Nest Mini**. Dispositivos do ecossistema Google Cast/Nest frequentemente expõem APIs HTTP na porta 8008 para comunicação interna da rede.
+
+1. **Port Scanning:** Uma varredura de portas no host revelou que a porta `8008` (frequentemente associada a serviços web alternativos ou APIs de configuração) estava com o status *listening*.
+2. **Execução do Script:** O endereço IP `192.168.0.114` e a porta `8008` foram inseridos no script `Generic_Web_Fingerprinting.ps1` via Bloco de Notas.
+3. **Análise de Metadados:** Ao executar o script, a extração dos cabeçalhos HTTP (*Banner Grabbing*) revelou assinaturas estruturais nos *headers* que permitiram identificar inequivocamente o dispositivo como um **Google Nest Mini**. Dispositivos do ecossistema Google Cast/Nest frequentemente expõem APIs HTTP na porta 8008 para comunicação interna da rede.
 
 ## ⚠️ Aviso Legal
 
