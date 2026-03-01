@@ -6,7 +6,7 @@
 # 1. Parâmetros de Conexão (Substitua IP e Porta conforme o alvo)
 $IpAddress = "000.000.0.0"
 $Port      = "8008"
-$Protocol  = "http"          # Altere para "https" se a porta exigir (ex: 443, 8443)
+$Protocol  = "https"          # Altere para "https" se a porta exigir (ex: 443, 8443)
 
 # 2. Montagem da URI apontando para a raiz do serviço
 $EndpointUri = "${Protocol}://${IpAddress}:${Port}/"
@@ -33,4 +33,5 @@ catch {
     } else {
         Write-Error "Falha na comunicação (Timeout, Porta Fechada ou Protocolo Incompatível). Detalhe: $($_.Exception.Message)"
     }
+
 }
